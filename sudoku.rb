@@ -10,5 +10,6 @@ def random_sudoku
 end
 
 get '/' do # default route for our website
+  @current_solution = random_sudoku
   erb :index
 end
