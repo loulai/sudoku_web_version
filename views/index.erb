@@ -5,10 +5,11 @@
   <link href="/stylesheets/application.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<h1>Life's too short for playing sudoku</h1>
 <div id="sudoku">
   <!-- one div for each row -->
   <% 3.times do |row| %>
-    <div class='row'>
+    <div class="row">
         <!-- we want to create separate div elements for boxes to style them using CSS -->
       <% 3.times do |box| %>
           <div class="box">
@@ -18,7 +19,7 @@
              <% 3.times do |cell| %>
                   <div class="cell">
                     <!-- every cell will have an input field -->
-                    <input type="text">
+                    <input type="text" maxlength="1" autocomplete="off">
                   </div>
                 <% end %>
               </div>
