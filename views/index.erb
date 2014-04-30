@@ -7,6 +7,7 @@
 <body>
 <h1>Life's too short for playing sudoku</h1>
 <div id="sudoku">
+  <form action="/" method="post">
   <!-- one div for each row -->
   <% 3.times do |row| %>
     <div class="row">
@@ -21,7 +22,7 @@
                     <!-- every cell will have an input field -->
                     <% cell_index = row * 27 + box * 3 + cell_row * 9 + cell %>
                     <% cell_value = @current_solution[cell_index] %>
-                    <input type="text" maxlength="1" autocomplete="off" value="<%= cell_value %>" >
+                    <input name="cell[]" type="text" maxlength="1" autocomplete="off" value="<%= cell_value %>" >
                   </div>
                 <% end %>
               </div>
@@ -30,6 +31,9 @@
         <% end %>
       </div>
     <% end %>
+    <!-- all boxes, rows and cells -->
+    <button>Check solution</button>
+  </form>
   </div>
 </body>
 </html>
