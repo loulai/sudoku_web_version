@@ -3,6 +3,7 @@ require_relative './lib/sudoku'
 require_relative './lib/cell'
 
 enable :sessions
+set :session_secret, '*&(^B234'
 
 def random_sudoku
   seed = (1..9).to_a.shuffle + Array.new(81-9, 0)
@@ -12,8 +13,9 @@ def random_sudoku
 end
 
 def puzzle(sudoku)
-  40.times {sudoku[rand(81)]=""}
-  sudoku
+  kinda_empty_sudoku = sudoku.dup #both filled right now
+  40.times {kinda_empty_sudoku[rand(81)]=""} #making the change
+  kinda_empty_sudoku #changed
 end
 
 get '/' do # default route for our website
