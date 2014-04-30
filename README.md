@@ -2,7 +2,6 @@ Sudoku (Web Version)
 =========
 
 Authors: Sroop Sunar, Louise Lai, Daniel Le Dosquet-Bergquist
-Sudoku files authored by Makers Academy www.makersacademy.com
 ___
 
 Makers Academy Week 5
@@ -20,3 +19,4 @@ Tech
 * Sinatra 
 * HTML
 * CSS
+Sudoku files authored by Makers Academy www.makersacademy.com
