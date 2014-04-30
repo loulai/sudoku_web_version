@@ -14,7 +14,7 @@ end
 
 def puzzle(sudoku)
   kinda_empty_sudoku = sudoku.dup #both filled right now
-  40.times {kinda_empty_sudoku[rand(81)]=""} #making the change
+  40.times {kinda_empty_sudoku[rand(81)]="0"} #making the change
   kinda_empty_sudoku #changed
 end
 
@@ -65,6 +65,9 @@ post '/' do
   session[:check_solution] = true
   redirect to("/")
 end
+
+def colour_class 
+  end
 
 
 
