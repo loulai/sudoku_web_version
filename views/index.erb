@@ -21,7 +21,7 @@
                   <div class="cell">
                     <!-- every cell will have an input field -->
                     <% cell_index = row * 27 + box * 3 + cell_row * 9 + cell %>
-                    <% cell_value = @current_solution[cell_index] %>
+                    <% cell_value = cell_value(@current_solution[cell_index]) %>
                     <% colour_class = colour_class(
                         @check_solution, 
                         @puzzle[cell_index], 
