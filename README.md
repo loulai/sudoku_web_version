@@ -15,8 +15,9 @@ Makers Academy Week 5
 Tech
 ----
 
-* Ruby 
-* Sinatra 
-* HTML
-* CSS
-Sudoku files authored by Makers Academy www.makersacademy.com
+- Ruby 
+- Sinatra 
+- HTML
+- CSS
+
+#####Sudoku files authored by Makers Academy www.makersacademy.com
