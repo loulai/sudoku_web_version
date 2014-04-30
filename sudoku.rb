@@ -42,7 +42,7 @@ get '/' do # default route for our website
 end
 
 def generate_new_puzzle_if_necessary
-  return if session[:current_solution]  
+  return if session[:current_solution] && session[:solution] && session[:puzzle] 
   sudoku = random_sudoku
   session[:solution] = sudoku
   session[:puzzle] = puzzle(sudoku)
@@ -56,6 +56,8 @@ end
 
 get '/solution' do
   @current_solution = session[:solution]
+  @solution = @current_solution
+  @puzzle = []
   erb :index
 end
 
@@ -69,7 +71,7 @@ end
 helpers do
 
   def colour_class(solution_to_check, puzzle_value, current_solution_value, solution_value)
-    must_be_guessed = puzzle_value == 0
+    must_be_guessed = puzzle_value.to_i == 0
     tried_to_guess = current_solution_value.to_i != 0
     guessed_incorrectly = current_solution_value != solution_value
 
