@@ -12,7 +12,7 @@ def random_sudoku
 end
 
 def puzzle(sudoku)
-  20.times {sudoku[rand(81)]=""}
+  40.times {sudoku[rand(81)]=""}
   sudoku
 end
 
@@ -20,5 +20,10 @@ get '/' do # default route for our website
   sudoku = random_sudoku
   session[:solution] = sudoku
   @current_solution = puzzle(sudoku)
+  erb :index
+end
+
+get '/solution' do
+  @current_solution = session[:solution]
   erb :index
 end
