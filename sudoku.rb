@@ -16,7 +16,7 @@ def random_sudoku
   sudoku.to_s.chars
 end
 
-def puzzle(sudoku, level=40)
+def puzzle(sudoku, level=3)
   kinda_empty_sudoku = sudoku.dup #both filled right now
   level.times {kinda_empty_sudoku[rand(81)]="0"} #making the change
   kinda_empty_sudoku #changed
@@ -43,15 +43,29 @@ get '/' do # default route for our website
   erb :index
 end
 
-post '/easy' do
+
+def level_generator(level)
   session.clear()
   sudoku = random_sudoku
   session[:solution] = sudoku
-  session[:puzzle] = puzzle(sudoku, 2)
+  session[:puzzle] = puzzle(sudoku, level)
   session[:current_solution] = session[:puzzle]
   set_session_variables
   erb :index
 end
+
+post '/easy' do
+  level_generator(2)
+end
+
+post '/medium' do
+  level_generator(40)
+end
+
+post '/hard' do
+  level_generator(100)
+end
+
 
 def set_session_variables
   @current_solution = session[:current_solution] || session[:puzzle]
