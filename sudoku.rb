@@ -16,15 +16,24 @@ def random_sudoku
   sudoku.to_s.chars
 end
 
+def contains_nine_zeros?(array)
+  newarray = array.select {|number| number == "0"}
+  newarray.count == 9
+end
+
 def puzzle(sudoku, level=3)
   kinda_empty_sudoku = sudoku.dup #both filled right now
-  boxes = boxes(kinda_empty_sudoku).each{|box|
-      box[rand(9)]="0" if !box.include?("0") }
-  rows = rows(boxes.flatten).each {|row|
-      row[rand(9)]="0" if !row.include?("0")}
-  cols = columns(rows.flatten).each {|col|
-      col[rand(9)]="0" if !col.include?("0")}
-  cols.flatten
+  until contains_nine_zeros?(kinda_empty_sudoku) do
+    kinda_empty_sudoku = sudoku.dup
+    boxes = boxes(kinda_empty_sudoku).each{|box|
+        box[rand(9)]="0" if !box.include?("0") }
+    rows = rows(boxes.flatten).each {|row|
+        row[rand(9)]="0" if !row.include?("0")}
+    cols = columns(rows.flatten).each {|col|
+        col[rand(9)]="0" if !col.include?("0")}
+    kinda_empty_sudoku = cols.flatten
+  end
+  kinda_empty_sudoku
 end
 
 def placement_conditions(sudoku)
