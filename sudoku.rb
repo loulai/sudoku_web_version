@@ -2,10 +2,12 @@ require 'sinatra'
 require_relative './lib/sudoku'
 require_relative './lib/cell'
 require 'sinatra/partial' 
+require 'rack-flash'
 
 enable :sessions
 set :session_secret, '*&(^B234'
 set :partial_template_engine, :erb
+use Rack::Flash
 
 def random_sudoku
   seed = (1..9).to_a.shuffle + Array.new(81-9, 0)
@@ -53,7 +55,10 @@ end
 
 def prepare_to_check_solution
   @check_solution = session[:check_solution]
-  session[:check_solution] = nil 
+  if @check_solution
+    flash[:notice] = "Incorrect values are highlighted in yellow"
+  end
+  session[:check_solution] = nil
 end
 
 get '/solution' do
