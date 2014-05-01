@@ -22,9 +22,9 @@ def puzzle(sudoku, level=3)
   kinda_empty_sudoku #changed
 end
 
-def box_order_to_row_order(cells)
-  boxes = cells.each_slice(9).to_a
-  (0..8).to_a.inject([])  { |memo, i| 
+def box_order_to_row_order(sudoku)
+    boxes = boxes(sudoku)
+    (0..8).to_a.inject([])  { |memo, i| 
     first_box_index = i / 3 * 3
     three_boxes = boxes[first_box_index, 3]
     three_rows_of_three = three_boxes.map { |box| 
@@ -35,6 +35,35 @@ def box_order_to_row_order(cells)
   } 
 end
 
+def rows(sudoku)
+  box_order_to_row_order(sudoku).each_slice(9).to_a
+end
+
+def columns(sudoku)
+  rows(sudoku).transpose
+end
+
+def level_easy_boxes(sudoku)
+  enum = (0..8).to_a.shuffle.to_enum
+  order_by_box = boxes(sudoku)
+  order_by_box.each { |box| box[enum.next] = "0" }
+end
+
+def level_easy_rows(sudoku)
+  enum = (0..8).to_a.shuffle.to_enum
+  order_by_rows = rows(sudoku)
+  order_by_rows.each { |row| row[enum.next] = "0" }
+end
+
+def level_easy_cols(sudoku)
+  enum = (0..8).to_a.shuffle.to_enum
+  order_by_cols = cols(sudoku)
+  order_by_cols.each { |cols| cols[enum.next] = "0" }
+end
+
+def boxes(sudoku)
+  sudoku.each_slice(9).to_a
+end
 
 get '/' do # default route for our website
   prepare_to_check_solution
