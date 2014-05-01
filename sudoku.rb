@@ -18,8 +18,27 @@ end
 
 def puzzle(sudoku, level=3)
   kinda_empty_sudoku = sudoku.dup #both filled right now
-  level.times {kinda_empty_sudoku[rand(81)]="0"} #making the change
-  kinda_empty_sudoku #changed
+  boxes = boxes(kinda_empty_sudoku).each{|box|
+      box[rand(9)]="0" if !box.include?("0") }
+  rows = rows(boxes.flatten).each {|row|
+      row[rand(9)]="0" if !row.include?("0")}
+  cols = columns(rows.flatten).each {|col|
+      col[rand(9)]="0" if !col.include?("0")}
+  cols.flatten
+end
+
+def placement_conditions(sudoku)
+  if !contains_zero?(rows(sudoku))
+    puts "no zero in rows"
+    return false
+  elsif !contains_zero?(columns(sudoku))
+    puts "no zero in columns"
+    return false
+  else !contains_zero?(boxes(sudoku))
+    puts "no zero in boxes"
+    return false
+  end
+  true
 end
 
 def box_order_to_row_order(sudoku)
@@ -37,6 +56,12 @@ end
 
 def rows(sudoku)
   box_order_to_row_order(sudoku).each_slice(9).to_a
+end
+
+def contains_zero?(cell_containers)
+  containers_with_zero = cell_containers.select {|container| container.include?("0")}
+  return true if containers_with_zero.count == 9
+  false
 end
 
 def columns(sudoku)
