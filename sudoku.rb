@@ -202,6 +202,8 @@ helpers do
 
 end
 
+#HI
+
 
 # this is the link we read to solve our session problem: 
 # http://stackoverflow.com/questions/18044627/sinatra-1-4-3-use-racksessioncookie-warning
