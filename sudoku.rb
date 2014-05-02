@@ -16,24 +16,37 @@ def random_sudoku
   sudoku.to_s.chars
 end
 
-def contains_nine_zeros?(array)
+def contains_enough_zeros?(array, level)
   newarray = array.select {|number| number == "0"}
-  newarray.count == 9
+  newarray.count == level
 end
 
-def puzzle(sudoku, level=3)
+def puzzle(sudoku, level=9)
   kinda_empty_sudoku = sudoku.dup #both filled right now
-  until contains_nine_zeros?(kinda_empty_sudoku) do
-    kinda_empty_sudoku = sudoku.dup
-    boxes = boxes(kinda_empty_sudoku).each{|box|
-        box[rand(9)]="0" if !box.include?("0") }
-    rows = rows(boxes.flatten).each {|row|
-        row[rand(9)]="0" if !row.include?("0")}
-    cols = columns(rows.flatten).each {|col|
-        col[rand(9)]="0" if !col.include?("0")}
-    kinda_empty_sudoku = cols.flatten
+  kinda_empty_sudoku = rows(kinda_empty_sudoku)
+  kinda_empty_sudoku[rand(9)][rand(9)] = "0"
+  place_all_zeros(kinda_empty_sudoku, level) 
+end
+
+def place_zero(kinda_empty_sudoku, next_cell)
+  x, y = next_cell
+  columns_array = kinda_empty_sudoku.transpose
+    if !kinda_empty_sudoku[x].include?("0") && !columns_array[y].include?("0")
+      kinda_empty_sudoku[x][y] = "0" 
+      return kinda_empty_sudoku
+    else 
+      place_zero(kinda_empty_sudoku, [rand(9), rand(9)])
+    end
+end
+
+def place_all_zeros(kinda_empty_sudoku, level)
+  next_cell = [rand(9),rand(9)]
+  place_zero(kinda_empty_sudoku, next_cell)
+  if contains_enough_zeros?(kinda_empty_sudoku.flatten, level)
+    return kinda_empty_sudoku.flatten
+  else
+    place_all_zeros(kinda_empty_sudoku, level)
   end
-  kinda_empty_sudoku
 end
 
 def placement_conditions(sudoku)
