@@ -16,16 +16,16 @@ def random_sudoku
   sudoku.to_s.chars
 end
 
-def contains_enough_zeros?(array, level)
+def contains_nine_zeros?(array)
   newarray = array.select {|number| number == "0"}
-  newarray.count == level
+  newarray.count == 9
 end
 
 def puzzle(sudoku, level=9)
   kinda_empty_sudoku = sudoku.dup #both filled right now
   kinda_empty_sudoku = rows(kinda_empty_sudoku)
   kinda_empty_sudoku[rand(9)][rand(9)] = "0"
-  place_all_zeros(kinda_empty_sudoku, level) 
+  place_nine_zeros(kinda_empty_sudoku)
 end
 
 def place_zero(kinda_empty_sudoku, next_cell)
@@ -39,29 +39,29 @@ def place_zero(kinda_empty_sudoku, next_cell)
     end
 end
 
-def place_all_zeros(kinda_empty_sudoku, level)
+def place_nine_zeros(kinda_empty_sudoku)
   next_cell = [rand(9),rand(9)]
   place_zero(kinda_empty_sudoku, next_cell)
-  if contains_enough_zeros?(kinda_empty_sudoku.flatten, level)
+  if contains_nine_zeros?(kinda_empty_sudoku.flatten)
     return kinda_empty_sudoku.flatten
   else
-    place_all_zeros(kinda_empty_sudoku, level)
+    place_nine_zeros(kinda_empty_sudoku)
   end
 end
 
-def placement_conditions(sudoku)
-  if !contains_zero?(rows(sudoku))
-    puts "no zero in rows"
-    return false
-  elsif !contains_zero?(columns(sudoku))
-    puts "no zero in columns"
-    return false
-  else !contains_zero?(boxes(sudoku))
-    puts "no zero in boxes"
-    return false
-  end
-  true
-end
+# def placement_conditions(sudoku)
+#   if !contains_zero?(rows(sudoku))
+#     puts "no zero in rows"
+#     return false
+#   elsif !contains_zero?(columns(sudoku))
+#     puts "no zero in columns"
+#     return false
+#   else !contains_zero?(boxes(sudoku))
+#     puts "no zero in boxes"
+#     return false
+#   end
+#   true
+# end
 
 def box_order_to_row_order(sudoku)
     boxes = boxes(sudoku)
@@ -80,33 +80,33 @@ def rows(sudoku)
   box_order_to_row_order(sudoku).each_slice(9).to_a
 end
 
-def contains_zero?(cell_containers)
-  containers_with_zero = cell_containers.select {|container| container.include?("0")}
-  return true if containers_with_zero.count == 9
-  false
-end
+# def contains_zero?(cell_containers)
+#   containers_with_zero = cell_containers.select {|container| container.include?("0")}
+#   return true if containers_with_zero.count == 9
+#   false
+# end
 
 def columns(sudoku)
   rows(sudoku).transpose
 end
 
-def level_easy_boxes(sudoku)
-  enum = (0..8).to_a.shuffle.to_enum
-  order_by_box = boxes(sudoku)
-  order_by_box.each { |box| box[enum.next] = "0" }
-end
+# def level_easy_boxes(sudoku)
+#   enum = (0..8).to_a.shuffle.to_enum
+#   order_by_box = boxes(sudoku)
+#   order_by_box.each { |box| box[enum.next] = "0" }
+# end
 
-def level_easy_rows(sudoku)
-  enum = (0..8).to_a.shuffle.to_enum
-  order_by_rows = rows(sudoku)
-  order_by_rows.each { |row| row[enum.next] = "0" }
-end
+# def level_easy_rows(sudoku)
+#   enum = (0..8).to_a.shuffle.to_enum
+#   order_by_rows = rows(sudoku)
+#   order_by_rows.each { |row| row[enum.next] = "0" }
+# end
 
-def level_easy_cols(sudoku)
-  enum = (0..8).to_a.shuffle.to_enum
-  order_by_cols = cols(sudoku)
-  order_by_cols.each { |cols| cols[enum.next] = "0" }
-end
+# def level_easy_cols(sudoku)
+#   enum = (0..8).to_a.shuffle.to_enum
+#   order_by_cols = cols(sudoku)
+#   order_by_cols.each { |cols| cols[enum.next] = "0" }
+# end
 
 def boxes(sudoku)
   sudoku.each_slice(9).to_a
@@ -131,7 +131,7 @@ def level_generator(level)
 end
 
 post '/easy' do
-  level_generator(2)
+  level_generator(9)
 end
 
 post '/medium' do
@@ -139,7 +139,7 @@ post '/medium' do
 end
 
 post '/hard' do
-  level_generator(100)
+  level_generator(72)
 end
 
 
